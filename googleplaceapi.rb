@@ -35,14 +35,12 @@ results.each do |result|
   end
 
   detail = JSON.parse response.body
-  place_details = detail['result']
+  place_detail = detail['result']
 
-  place_details.each do |place_detail|
-    location = place_detail['geometry']['location']
-    answer = {lat: location['lat'], lng:location['lng'], name:place['name']}
+  location = place_detail['geometry']['location']
+  answer = {lat: location['lat'], lng:location['lng'], name:place_detail['name']}
 
-    File.open('./place.json', 'a') do |file|
-        file.puts JSON.pretty_generate(answer)
-    end
+  File.open('./place.json', 'a') do |file|
+      file.puts JSON.pretty_generate(answer)
   end
 end
