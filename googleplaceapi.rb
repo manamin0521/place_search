@@ -8,13 +8,13 @@ lng = '151.1957362'
 rad = '5000'
 
 #types = 'restaurant'
-types = 'university'
-#types = 'hospital'
+# types = 'university'
+types = 'hospital'
 #types = 'school'
 
 language = 'en'
 
-uri = URI.parse "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{lat},#{lng}&radius=#{rad}&types=#{types}&language=en&key=#{API_KEY}"
+uri = URI.parse "https://maps.googleapis.com/maps/api/place/radarsearch/json?location=#{lat},#{lng}&radius=#{rad}&types=#{types}&language=en&key=#{API_KEY}"
 
 request = Net::HTTP::Get.new(uri.request_uri)
 response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
@@ -24,11 +24,25 @@ end
 body = JSON.parse response.body
 results = body['results']
 
-p "types - #{types}"
+results.each do |result|
+  place_id = result['place_id']
 
-results.each do |place|
-  location = place['geometry']['location']
-  # lat, lng = location['lat'], location['lng']
-  
-  p "#{location['lat']}, #{location['lng']}, #{place['name']}"
+  uri2 = URI.parse "https://maps.googleapis.com/maps/api/place/details/json?placeid=#{place_id}&language=en&key=#{API_KEY}"
+
+  request = Net::HTTP::Get.new(uri2.request_uri)
+  response = Net::HTTP.start(uri2.host, uri2.port, use_ssl: uri2.scheme == 'https') do |http|
+    http.request(request)
+  end
+
+  detail = JSON.parse response.body
+  place_details = detail['result']
+
+  place_details.each do |place_detail|
+    location = place_detail['geometry']['location']
+    answer = {lat: location['lat'], lng:location['lng'], name:place['name']}
+
+    File.open('./place.json', 'a') do |file|
+        file.puts JSON.pretty_generate(answer)
+    end
+  end
 end
