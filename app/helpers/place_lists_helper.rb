@@ -1,0 +1,2 @@
+module PlaceListsHelper
+end
