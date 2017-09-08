@@ -1,3 +1,9 @@
 body{
   text-align :center;
 }
+input{
+  margin-left: 10ex;
+}
+select{
+  margin-left: 10ex;
+}
