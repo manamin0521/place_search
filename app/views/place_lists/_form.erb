@@ -1,0 +1,16 @@
+<%= form_for @place_list do |f| %>
+
+  <div class="field">
+    <%= f.label :lat, "中心の緯度" %>
+    <%= f.text_field :lat %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lng, "中心の経度" %>
+    <%= f.text_field :lng %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit "検索" %>
+  </div>
+<% end %>

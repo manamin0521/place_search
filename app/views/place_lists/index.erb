@@ -1,0 +1,26 @@
+<%= form_for @place do |f| %>
+
+<div class="field">
+    <%= f.label :lat, "緯度" %>
+    <%= f.text_field :lat %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lng, "経度" %>
+    <%= f.text_field :lng %>
+  </div>
+
+  <div class="field">
+    <%= f.label :radian, "半径" %>
+    <%= f.text_field :radian %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category, "カテゴリー" %>
+    <%= f.collection_select :category, Category.all, :id, :name, include_blank: true %>
+  </div>  
+  
+  <div class="actions">
+    <%= f.submit "検索" %>
+  </div>
+<% end %>
