@@ -2,15 +2,20 @@ require 'net/https'
 require 'uri'
 require 'json'
 
-API_KEY = 'AIzaSyDEhtQbIdDR_5KQjMBgIPSoEb2IELXYTG0'
-lat = '-33.8670522'
-lng = '151.1957362'
-rad = '5000'
+# API_KEY = 'AIzaSyDEhtQbIdDR_5KQjMBgIPSoEb2IELXYTG0'
+API_KEY = 'AIzaSyDVUuLJdMwQA_WPJRAJM2ngyKrUK4r_ROw'
+# API_KEY = 'AIzaSyDRK0rZvGzZ2lvu-jW3A3TAExcuEnE5wiU'
+# API_KEY = 'AIzaSyB379FMFKJO5sx58uIVkuAfl6SE9ie08gA'
 
-#types = 'restaurant'
+lat = '3.1528496'
+lng = '101.7015546'
+rad = '50000'
+
+# types = 'train_station'
 # types = 'university'
-types = 'hospital'
-#types = 'school'
+types = 'school'
+# types = 'shopping_mall'
+# types = 'hospital'
 
 language = 'en'
 
@@ -38,7 +43,7 @@ results.each do |result|
   place_detail = detail['result']
 
   location = place_detail['geometry']['location']
-  answer = {lat: location['lat'], lng:location['lng'], name:place_detail['name']}
+  answer = {name:place_detail['name'], lat: location['lat'], lng:location['lng'], types:place_detail['types'], address:place_detail['formatted_address']}
 
   File.open('./place.json', 'a') do |file|
       file.puts JSON.pretty_generate(answer)
